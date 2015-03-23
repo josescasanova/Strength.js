@@ -1,6 +1,6 @@
 {
   "name": "strength.js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/nyon/Strength.js",
   "authors": [
     "Aaron Lumsden",
@@ -15,7 +15,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "jquery": ">=1.10.2",
+    "jquery": ">=1.10.2"
   },
   "ignore": [
     "**/.*",
