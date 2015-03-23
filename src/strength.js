@@ -10,7 +10,8 @@
         strengthMeterClass: 'strength_meter',
         strengthButtonClass: 'button_strength',
         strengthButtonText: 'Show Password',
-        strengthButtonTextToggle: 'Hide Password'
+        strengthButtonTextToggle: 'Hide Password',
+        confirms: false
     };
 
 
@@ -48,6 +49,13 @@
                 else thismeter.removeClass().html('Strength');
             }
 
+            function check_confirm(thisval,thisid,otherid) {
+                var thismeter = $('div[data-meter="'+thisid+'"]');
+                thismeter.removeClass();
+                if($('#'+thisid).val() == $('#'+otherid).val()) thismeter.addClass('success').html('success');
+                else thismeter.addClass('alert').html('fail');
+            }
+
 
 
             var isShown = false;
@@ -56,7 +64,7 @@
 
 
             thisid = this.$elem.attr('id');
-
+            var self = this;
 
             this.$elem.addClass(this.options.strengthClass).attr('data-password',thisid).after('<input style="display:none" class="'+this.options.strengthClass+'" data-password="'+thisid+'" type="text" name="" value=""><a data-password-button="'+thisid+'" href="" class="'+this.options.strengthButtonClass+'">'+this.options.strengthButtonText+'</a><div class="'+this.options.strengthMeterClass+'"><div data-meter="'+thisid+'">Strength</div></div>');
 
@@ -64,17 +72,20 @@
                 thisid = $(e.target).attr('id');
                 thisval = $('#'+thisid).val();
                 $('input[type="text"][data-password="'+thisid+'"]').val(thisval);
-                check_strength(thisval,thisid);
+                if(!self.options.confirms) check_strength(thisval,thisid);
+                else check_confirm(thisval, thisid, self.options.confirms);
 
             });
 
             $('input[type="text"][data-password="'+thisid+'"]').on('keyup', function(e) {
                 thisval = $(e.target).val();
                 $('input[type="password"][data-password="'+$(e.target).data('password')+'"]').val(thisval);
-                check_strength(thisval,thisid);
+                if(!self.options.confirms) check_strength(thisval,thisid);
+                else check_confirm(thisval, thisid, self.options.confirms);
             });
 
             $(document.body).on('click', '.'+this.options.strengthButtonClass, function(e) {
+                thisid = $(e.target).data('password-button');
                 e.preventDefault();
                 thisclass = 'hide_'+$(this).attr('class');
 
